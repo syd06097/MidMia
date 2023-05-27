@@ -1,2 +1,3 @@
 midmia_backend/node_modules
 myenv/
+.env

@@ -1,10 +1,11 @@
 import requests
 from django.shortcuts import render
 from .models import Summoner
+from django.conf import settings
 
 def summoner_ranking(request):
     # Riot API 관련 설정
-    api_key = 'RGAPI-b82588e9-5dd4-4739-820e-cdd72adcb6c8'
+    api_key = settings.API_KEY
     base_url = 'https://kr.api.riotgames.com'
     queue = 'RANKED_SOLO_5x5'
     tier = 'CHALLENGER'
@@ -49,7 +50,7 @@ def summoner_ranking(request):
     return render(request, 'summoners/summoner_ranking.html', context)
 
 def get_profile_icon_id(summoner_name):
-    api_key = 'RGAPI-2ba76182-6fd5-4663-8ce2-5290b5724b5e'
+    api_key = settings.API_KEY2
     base_url = 'https://kr.api.riotgames.com'
     summoner_info_url = f"{base_url}/lol/summoner/v4/summoners/by-name/{summoner_name}"
     headers = {'X-Riot-Token': api_key}
