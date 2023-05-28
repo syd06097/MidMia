@@ -1,6 +1,7 @@
 from django.contrib import admin
-
-# Register your models here.
 from .models import Summoner
 
-admin.site.register(Summoner)
+class SummonerAdmin(admin.ModelAdmin):
+    ordering = ['ranking']
+
+admin.site.register(Summoner, SummonerAdmin)
