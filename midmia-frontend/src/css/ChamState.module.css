@@ -1,0 +1,20 @@
+.div1{
+    width: 80%;
+    border-color:rgb(100, 100, 100);
+    margin: 30px auto;
+    position: center;
+}/*테이블의 위치*/
+
+
+tr{
+    color: white;
+}/* 테이블의 모든 글자 하양으로 */
+
+th{
+    font-weight: lighter;
+}
+
+td{
+    font-weight: bold;
+    text-align: center;
+}
