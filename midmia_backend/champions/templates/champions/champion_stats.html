@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Champion Stats</title>
+</head>
+<body>
+    <h1>Champion Stats</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>챔피언</th>
+                <th>평점</th>
+                <th>승률</th>
+                <th>게임당 픽률</th>
+                <th>게임당 밴률</th>
+                <th>CS</th>
+                <th>Gold</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for champion in champion_data %}
+            <tr>
+                <td>{{ champion.챔피언 }}</td>
+                <td>{{ champion.평점 }}</td>
+                <td>{{ champion.승률 }}</td>
+                <td>{{ champion.게임당_픽률 }}</td>
+                <td>{{ champion.게임당_밴률 }}</td>
+                <td>{{ champion.cs }}</td>
+                <td>{{ champion.gold }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
