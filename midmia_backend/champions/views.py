@@ -1,7 +1,19 @@
 from django.shortcuts import render
 from selenium import webdriver
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import ChampionStatsSerializer
 from selenium.webdriver.common.by import By
 from .models import Champion, ChampionStats
+
+
+
+class ChampionStatsAPIView(APIView):
+    def get(self, request):
+        champion_stats = ChampionStats.objects.all()
+        serializer = ChampionStatsSerializer(champion_stats, many=True)
+        return Response(serializer.data)
+
 
 def championStatCrawl():
     browser = webdriver.Chrome("chromedriver")
@@ -54,6 +66,7 @@ def championStatCrawl():
         champion_en_name_xpath = '//*[@id="content-container"]/div[2]/table/tbody/tr[{}]/td[2]/a'.format(champion_rank)
         champion_en_name_link = browser.find_element(By.XPATH, champion_en_name_xpath).get_attribute('href')
         champion_en_name = champion_en_name_link.split('/')[-1].title()
+        image_link = f"http://ddragon.leagueoflegends.com/cdn/13.11.1/img/champion/{champion_en_name}.png"
 
         data = {
             "챔피언" : champion_name,
@@ -63,7 +76,7 @@ def championStatCrawl():
             "게임당_밴률" : champion_ban_rate,
             "cs" : cs,
             "gold" : gold,
-            "챔피언영문" : champion_en_name
+            "챔프이미지" : image_link
         }
 
         champion_data.append(data)
@@ -81,8 +94,8 @@ def save_champion_stats(request):
 
     for data in champion_data:
         champion_name = data['챔피언']
-        champion_en_name = data['챔피언영문']
-        champion = Champion.objects.create(name=champion_name, en_name = champion_en_name , tag='fake')
+        image_link = data['챔프이미지']
+        champion = Champion.objects.create(name=champion_name, champi_image_link = image_link , tag='fake')
 
         ChampionStats.objects.create(
             champion=champion,
