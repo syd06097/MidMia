@@ -50,14 +50,20 @@ def championStatCrawl():
         gold = int(champion_gold.replace(',', ''))
 
 
+        #챔피언 영문명
+        champion_en_name_xpath = '//*[@id="content-container"]/div[2]/table/tbody/tr[{}]/td[2]/a'.format(champion_rank)
+        champion_en_name_link = browser.find_element(By.XPATH, champion_en_name_xpath).get_attribute('href')
+        champion_en_name = champion_en_name_link.split('/')[-1].title()
+
         data = {
             "챔피언" : champion_name,
             "평점" : kda,
             "승률" : champion_win_rate,
-            "게임당 픽률" : champion_pick_rate,
-            "게임당 밴률" : champion_ban_rate,
+            "게임당_픽률" : champion_pick_rate,
+            "게임당_밴률" : champion_ban_rate,
             "cs" : cs,
-            "gold" : gold
+            "gold" : gold,
+            "챔피언영문" : champion_en_name
         }
 
         champion_data.append(data)
@@ -75,17 +81,18 @@ def save_champion_stats(request):
 
     for data in champion_data:
         champion_name = data['챔피언']
-        champion = Champion.objects.create(name=champion_name, tag='fake')
+        champion_en_name = data['챔피언영문']
+        champion = Champion.objects.create(name=champion_name, en_name = champion_en_name , tag='fake')
 
         ChampionStats.objects.create(
             champion=champion,
             KDA=data['평점'],
             wins_rate=data['승률'],
-            pick_rate=data['게임당 픽률'],
-            ban_rate=data['게임당 밴률'],
+            pick_rate=data['게임당_픽률'],
+            ban_rate=data['게임당_밴률'],
             cs=data['cs'],
             gold=data['gold'],
-            tag='fake'
+            tag='fake'        
         )
     
     context = {

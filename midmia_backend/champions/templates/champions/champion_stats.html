@@ -17,6 +17,7 @@
                 <th>게임당 밴률</th>
                 <th>CS</th>
                 <th>Gold</th>
+                <th>초상화</th>
             </tr>
         </thead>
         <tbody>
@@ -29,6 +30,7 @@
                 <td>{{ champion.게임당_밴률 }}</td>
                 <td>{{ champion.cs }}</td>
                 <td>{{ champion.gold }}</td>
+                <td><img src="http://ddragon.leagueoflegends.com/cdn/13.11.1/img/champion/{{ champion.챔피언영문 }}.png" alt="{{ champion.챔피언 }}"></td>
             </tr>
             {% endfor %}
         </tbody>
