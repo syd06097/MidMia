@@ -1,7 +1,9 @@
 import React from "react"
+import {createBrowserRouter} from "react-router-dom";
+//pages
 import Main from "./pages/Main";
 import ChampionState from "./pages/ChampionState";
-import {createBrowserRouter} from "react-router-dom";
+import Summoner from "./pages/Summoner";
 
 const router = createBrowserRouter([
     {
@@ -12,6 +14,10 @@ const router = createBrowserRouter([
         path:"/ChampionState",
         element:<ChampionState/>
     },
+    {
+        path:"/Summoner",
+        element:<Summoner/>
+    },
 ])
 
-export default router
+export default router;
