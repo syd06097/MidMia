@@ -3,9 +3,9 @@ from selenium import webdriver
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import ChampionStatsSerializer,ChampionSerializer
+from .serializers import ChampionStatsSerializer
 from selenium.webdriver.common.by import By
 from .models import Champion, ChampionStats
-
 
 
 

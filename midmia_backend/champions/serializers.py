@@ -21,4 +21,3 @@ class ChampionStatsSerializer(serializers.ModelSerializer):
             "gold",
             "tag",
         ]
-
