@@ -1,8 +1,14 @@
 from rest_framework import serializers
-from .models import ChampionStats
+from .models import ChampionStats, Champion
 
+
+class ChampionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Champion
+        fields = '__all__'
 
 class ChampionStatsSerializer(serializers.ModelSerializer):
+    champion = ChampionSerializer()
     class Meta:
         model = ChampionStats
         fields = [
@@ -15,3 +21,4 @@ class ChampionStatsSerializer(serializers.ModelSerializer):
             "gold",
             "tag",
         ]
+

@@ -5,4 +5,5 @@ from .models import Post
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ["title", "content", "author", "created_at", "category"]
+        id = serializers.IntegerField(read_only=True)
+        fields = ["id", "title", "content", "author", "created_at", "category"]

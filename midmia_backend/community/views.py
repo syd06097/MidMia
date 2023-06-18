@@ -15,7 +15,8 @@ class PostAPIView(APIView):
         posts = Post.objects.all()
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
-    
+
+
 def signup(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
@@ -58,10 +59,12 @@ def create_post(request):
         form = PostForm()
     return render(request, "community/create_post.html", {"form": form})
 
+
 def post_list(request):
     posts = Post.objects.all()
-    context = {'posts': posts}
-    return render(request, 'community/post_list.html', context)
+    context = {"posts": posts}
+    return render(request, "community/post_list.html", context)
+
 
 def view_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
@@ -85,7 +88,6 @@ def edit_post(request, post_id):
         form = PostForm(instance=post)
 
     return render(request, "community/edit_post.html", {"form": form, "post": post})
-
 
 @login_required
 def delete_post(request, post_id):
