@@ -1,0 +1,10 @@
+
+
+{% block content %}
+  <h2>{{ post.title }}</h2>
+  <p>작성자: {{ post.author.username }}</p>
+  <p>작성일자: {{ post.created_at }}</p>
+  <p>내용: {{ post.content }}</p>
+  <p>카테고리: {{ post.category }}</p>
+  <p>Id: {{ post.id }}</p>
+{% endblock %}

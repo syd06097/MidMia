@@ -1,7 +1,28 @@
 from django.shortcuts import render
 from selenium import webdriver
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import ChampionStatsSerializer,ChampionSerializer
 from selenium.webdriver.common.by import By
 from .models import Champion, ChampionStats
+
+
+
+
+class ChampionStatsAPIView(APIView):
+    def get(self, request):
+        champion_stats = ChampionStats.objects.all()
+        serializer = ChampionStatsSerializer(champion_stats, many=True)
+        return Response(serializer.data)
+    
+class ChampionAPIView(APIView):
+    def get(self, request):
+        champions = Champion.objects.all()
+        serializer = ChampionSerializer(champions, many=True)
+        return Response(serializer.data)
+    
+
+
 
 def championStatCrawl():
     browser = webdriver.Chrome("chromedriver")
@@ -50,14 +71,21 @@ def championStatCrawl():
         gold = int(champion_gold.replace(',', ''))
 
 
+        #챔피언 영문명
+        champion_en_name_xpath = '//*[@id="content-container"]/div[2]/table/tbody/tr[{}]/td[2]/a'.format(champion_rank)
+        champion_en_name_link = browser.find_element(By.XPATH, champion_en_name_xpath).get_attribute('href')
+        champion_en_name = champion_en_name_link.split('/')[-1].title()
+        image_link = f"http://ddragon.leagueoflegends.com/cdn/13.11.1/img/champion/{champion_en_name}.png"
+
         data = {
             "챔피언" : champion_name,
             "평점" : kda,
             "승률" : champion_win_rate,
-            "게임당 픽률" : champion_pick_rate,
-            "게임당 밴률" : champion_ban_rate,
+            "게임당_픽률" : champion_pick_rate,
+            "게임당_밴률" : champion_ban_rate,
             "cs" : cs,
-            "gold" : gold
+            "gold" : gold,
+            "챔프이미지" : image_link
         }
 
         champion_data.append(data)
@@ -75,17 +103,18 @@ def save_champion_stats(request):
 
     for data in champion_data:
         champion_name = data['챔피언']
-        champion = Champion.objects.create(name=champion_name, tag='fake')
+        image_link = data['챔프이미지']
+        champion = Champion.objects.create(name=champion_name, champi_image_link = image_link , tag='fake')
 
         ChampionStats.objects.create(
             champion=champion,
             KDA=data['평점'],
             wins_rate=data['승률'],
-            pick_rate=data['게임당 픽률'],
-            ban_rate=data['게임당 밴률'],
+            pick_rate=data['게임당_픽률'],
+            ban_rate=data['게임당_밴률'],
             cs=data['cs'],
             gold=data['gold'],
-            tag='fake'
+            tag='fake'        
         )
     
     context = {
@@ -93,3 +122,32 @@ def save_champion_stats(request):
     }
     
     return render(request, 'champions/champion_stats.html', context)
+
+
+# def save_champion_stats(request):
+#     champion_data = championStatCrawl()
+
+#     ChampionStats.objects.filter(tag='fake').delete()
+#     Champion.objects.filter(tag='fake').delete()
+
+#     for data in champion_data:
+#         champion_name = data['챔피언']
+#         image_link = data['챔프이미지']
+#         champion, _ = Champion.objects.get_or_create(name=champion_name, defaults={'champi_image_link': image_link, 'tag': 'fake'})
+
+#         ChampionStats.objects.create(
+#             champion=champion,
+#             KDA=data['평점'],
+#             wins_rate=data['승률'],
+#             pick_rate=data['게임당_픽률'],
+#             ban_rate=data['게임당_밴률'],
+#             cs=data['cs'],
+#             gold=data['gold'],
+#             tag='fake'
+#         )
+
+#     context = {
+#         'champion_data': champion_data
+#     }
+
+#     return render(request, 'champions/champion_stats.html', context)

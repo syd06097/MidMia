@@ -7,6 +7,7 @@ from django.conf import settings
 class Champion(models.Model):
     name = models.CharField(max_length=100)
     tag = models.CharField(max_length=10, default='na')
+    champi_image_link = models.CharField(max_length=200 ,null=True, blank=True)
     # 필요한 다른 필드들을 추가가능
 
     def __str__(self):  
