@@ -23,55 +23,7 @@ function MainCommunity() {
     }
   };
   return (
-    /* 
-    <div>
-      <div className={styles.div0}>
-        <ListGroup> 방법1
-         <ListGroup.Item className={styles.write} style={{ marginTop: '20px' }}><h3 className={styles.title}>포지션 게시판</h3></ListGroup.Item>
-       {data.map((item, index) => (
-         <ListGroup.Item key={index} style={{backgroundColor: 'rgb(033, 033, 033)',borderBottom:'1px, solid', borderBottomColor:'rgb(100, 100, 100)'}}>
-            {item}
-          </ListGroup.Item>
-        ))}
-        </ListGroup>
-      </div>
-        <div className={styles.div0}>
-          <ListGroup> 방법1
-          <ListGroup.Item className={styles.write} style={{ marginTop: '20px' }}><h3 className={styles.title}>자유 게시판</h3></ListGroup.Item>
-       {data.map((item, index) => (
-         <ListGroup.Item key={index} style={{backgroundColor: 'rgb(033, 033, 033)',borderBottom:'1px, solid', borderBottomColor:'rgb(100, 100, 100)'}}>
-            {item}
-          </ListGroup.Item>
-        ))}
-        </ListGroup>
-      </div>
-    </div>
-    
-    */
 
-    /*
-    <div>
-      <div className={styles.div0}>
-        <ListGroup> a태그 사용할때 사용
-          <ListGroup.Item className={styles.write} style={{ marginTop: '20px' }}><h3 className={styles.title}>포지션 게시판</h3></ListGroup.Item>
-        {data.map((item, index) => (
-          <ListGroup.Item key={index} style={{backgroundColor: 'rgb(033, 033, 033)',borderBottom:'1px, solid', borderBottomColor:'rgb(100, 100, 100)'}}>
-            <a href={item.link}>{item.title}</a>
-        </ListGroup.Item>
-          ))}
-        </ListGroup>
-      </div>
-      <div className={styles.div0}>
-        <ListGroup> a태그 사용할때 사용
-          <ListGroup.Item className={styles.write} style={{ marginTop: '20px' }}><h3 className={styles.title}>자유 게시판</h3></ListGroup.Item>
-        {data.map((item, index) => (
-          <ListGroup.Item key={index} style={{backgroundColor: 'rgb(033, 033, 033)',borderBottom:'1px, solid', borderBottomColor:'rgb(100, 100, 100)'}}>
-            <a href={item.link}>{item.title}</a>
-        </ListGroup.Item>
-          ))}
-        </ListGroup>
-      </div>
-    </div>*/
     <div>
       <div className={styles.div0} >{/* 나중에 위치조정필요 */}
         <ListGroup>

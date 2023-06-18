@@ -2,7 +2,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import NavBar from '../NavBar';//상단 메뉴바
 import MenuBackimage from '../MenuBackimage';//배경
 import styles from "../css/Login.module.css";
-
+import axios from 'axios';
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -23,11 +23,11 @@ const pagebottom = {
 }//아래 추가용 스타일
 
 function Login() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
@@ -37,7 +37,25 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // 로그인 처리 로직 추가
-    console.log('Email:', email);
+    axios.post("http://127.0.0.1:8000/community/login/", {
+      username: username,
+      password: password
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          // 로그인이 성공적으로 완료된 경우에 대한 처리
+          console.log("로그인 성공");
+          // 필요한 리다이렉션 또는 다음 동작을 수행
+        } else {
+          // 로그인이 실패한 경우에 대한 처리
+          console.error("로그인 실패");
+          throw new Error("로그인 실패");
+        }
+      })
+      .catch((error) => {
+        console.error("네트워크 오류:", error);
+      });
+    console.log('Username:', username);
     console.log('Password:', password);
     // 여기에서 실제 로그인 처리를 구현할 수 있습니다.
   };
@@ -53,14 +71,14 @@ function Login() {
         <div className={styles.Flogin}>
           <Form onSubmit={handleSubmit} style={{ width: '300px' }}>
             <div style={{textAlign:'center',color:'rgb(100,100,100)',marginBottom:'10px'}}>
-              이메일 로그인
+              아이디 로그인
             </div>
             <Form.Group controlId="formEmail">
               <Form.Control
-                type="email"
-                placeholder="이메일을 입력하세요"
-                value={email}
-                onChange={handleEmailChange}
+                type="text"
+                placeholder="아이디을 입력하세요"
+                value={username}
+                onChange={handleUsernameChange}
                 className={styles.Fcontents}
               />
             </Form.Group>

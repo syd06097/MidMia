@@ -6,7 +6,6 @@ function CreatePostForm() {
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("");
   const [subcategory, setSubcategory] = useState("");
-  
 
 
   const handleCategoryChange = (e) => {
@@ -33,23 +32,9 @@ function CreatePostForm() {
       console.log(pair[0] + ": " + pair[1]);
     }
     
-    axios.post("http://127.0.0.1:8000/community/login/", {
-      username: "test",
-      password: "1q2w3e4r!"
+    axios.post("http://127.0.0.1:8000/community/create/", formData, {
+      'Content-Type': 'multipart/form-data',
     })
-      .then((response) => {
-        if (response.status === 200) {
-          // 로그인이 성공적으로 완료된 경우에 대한 처리
-          axios.defaults.headers.common['Authorization'] = `Token ${response.data.token}`;
-          return axios.post("http://127.0.0.1:8000/community/create/", formData, {
-            'Content-Type': 'multipart/form-data',
-          });
-        } else {
-          // 로그인이 실패한 경우에 대한 처리
-          console.error("로그인 실패");
-          throw new Error("로그인 실패");
-        }
-      })
       .then((response) => {
         if (response.status === 201) {
           // 글 작성이 성공적으로 완료된 경우에 대한 처리

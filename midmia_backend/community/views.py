@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login, logout
+from django.contrib.auth import authenticate, login, logout
 from .models import Post
 from .forms import PostForm
 from rest_framework import status
@@ -9,95 +9,91 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import Http404
 from .serializers import PostSerializer
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 class PostAPIView(APIView):
-    def get(self, request):
+     def get(self, request, post_id=None):
+        if post_id is not None:
+            try:
+                post = Post.objects.get(id=post_id)
+                serializer = PostSerializer(post)
+                return Response(serializer.data)
+            except Post.DoesNotExist:
+                return Response(
+                    {"error": "Post not found."},
+                    status=status.HTTP_404_NOT_FOUND
+                )
         posts = Post.objects.all()
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
 
 
-def signup(request):
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
+class SignupAPIView(APIView):
+    def post(self, request):
+        form = UserCreationForm(request.data)
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect("community:post_list")
-    else:
-        form = UserCreationForm()
-    return render(request, "community/signup.html", {"form": form})
+            return Response(status=status.HTTP_201_CREATED)
+        else:
+            return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-def login_view(request):
-    if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
+class LoginAPIView(APIView):
+    @csrf_exempt
+    def get(self, request):
+        # 로그인 페이지를 렌더링하는 로직 구현
+        return Response(status=status.HTTP_200_OK)
+    @csrf_exempt
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
             login(request, user)
-            return redirect("community:post_list")
-    else:
-        form = AuthenticationForm()
-    return render(request, "community/login.html", {"form": form})
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-def logout_view(request):
-    logout(request)
-    return redirect("community:post_list")
+@method_decorator(login_required, name='post')
+class LogoutAPIView(APIView):
+    def post(self, request):
+        logout(request)
+        return Response(status=status.HTTP_200_OK)
 
-
-@login_required
-def create_post(request):
-    if request.method == "POST":
-        form = PostForm(request.POST)
+@method_decorator(login_required, name='post')
+class CreatePostAPIView(APIView):
+    def post(self, request):
+        form = PostForm(request.data)
         if form.is_valid():
             post = form.save(commit=False)
-            post.author = request.user
+            post.author = str(request.user.username)
             post.save()
-            return redirect("community:post_list")
-    else:
-        form = PostForm()
-    return render(request, "community/create_post.html", {"form": form})
+            return Response(status=status.HTTP_201_CREATED)
+        else:
+            return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-def post_list(request):
-    posts = Post.objects.all()
-    context = {"posts": posts}
-    return render(request, "community/post_list.html", context)
-
-
-def view_post(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-    context = {"post": post}
-    return render(request, "community/view_post.html", context)
-
-
-@login_required
-def edit_post(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-
-    if post.author != request.user:
-        return redirect("community:post_list")
-
-    if request.method == "POST":
-        form = PostForm(request.POST, instance=post)
+@method_decorator(login_required, name='put')
+class EditPostAPIView(APIView):
+    def put(self, request, post_id):
+        post = Post.objects.filter(id=post_id, author=request.user.username).first()
+        if not post:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        form = PostForm(request.data, instance=post)
         if form.is_valid():
             form.save()
-            return redirect("community:post_list")
-    else:
-        form = PostForm(instance=post)
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    return render(request, "community/edit_post.html", {"form": form, "post": post})
-
-@login_required
-def delete_post(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-
-    if post.author != request.user:
-        return redirect("community:post_list")
-
-    if request.method == "POST":
+@method_decorator(login_required, name='delete')
+class DeletePostAPIView(APIView):
+    def delete(self, request, post_id):
+        post = Post.objects.filter(id=post_id, author=request.user.username).first()
+        if not post:
+            return Response(status=status.HTTP_404_NOT_FOUND)
         post.delete()
-        return redirect("community:post_list")
-
-    return render(request, "community/delete_post.html", {"post": post})
+        return Response(status=status.HTTP_204_NO_CONTENT)
