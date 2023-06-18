@@ -2,6 +2,7 @@ from django.shortcuts import render
 from selenium import webdriver
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from .serializers import ChampionStatsSerializer,ChampionSerializer
 from .serializers import ChampionStatsSerializer
 from selenium.webdriver.common.by import By
 from .models import Champion, ChampionStats
@@ -13,6 +14,14 @@ class ChampionStatsAPIView(APIView):
         champion_stats = ChampionStats.objects.all()
         serializer = ChampionStatsSerializer(champion_stats, many=True)
         return Response(serializer.data)
+    
+class ChampionAPIView(APIView):
+    def get(self, request):
+        champions = Champion.objects.all()
+        serializer = ChampionSerializer(champions, many=True)
+        return Response(serializer.data)
+    
+
 
 
 def championStatCrawl():

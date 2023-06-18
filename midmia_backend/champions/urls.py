@@ -9,4 +9,5 @@ urlpatterns = [
    path(
         "api/champion-stats/", ChampionStatsAPIView.as_view(), name="champion_stats_api"
     ),
+    path('save-champion-stats/', views.save_champion_stats, name='save_champion_stats'),
 ]
