@@ -1,0 +1,26 @@
+.Flogin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+}
+
+.Fcontents{
+    background-color: rgb(016,019,028);
+    border: 1px solid rgb(100,100,100);
+}
+
+.link{
+    text-decoration: none;
+    color:rgb(100,100,100);
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+
+/*회원가입*/
+.Flabel{
+    margin-top: 10px;
+    color: white;
+    font-weight: bold;
+}/*입력창이름*/
