@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from .views import ChampionStatsAPIView
+
 
 app_name = 'champions'
 urlpatterns = [

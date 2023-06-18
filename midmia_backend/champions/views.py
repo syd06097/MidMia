@@ -113,3 +113,32 @@ def save_champion_stats(request):
     }
     
     return render(request, 'champions/champion_stats.html', context)
+
+
+# def save_champion_stats(request):
+#     champion_data = championStatCrawl()
+
+#     ChampionStats.objects.filter(tag='fake').delete()
+#     Champion.objects.filter(tag='fake').delete()
+
+#     for data in champion_data:
+#         champion_name = data['챔피언']
+#         image_link = data['챔프이미지']
+#         champion, _ = Champion.objects.get_or_create(name=champion_name, defaults={'champi_image_link': image_link, 'tag': 'fake'})
+
+#         ChampionStats.objects.create(
+#             champion=champion,
+#             KDA=data['평점'],
+#             wins_rate=data['승률'],
+#             pick_rate=data['게임당_픽률'],
+#             ban_rate=data['게임당_밴률'],
+#             cs=data['cs'],
+#             gold=data['gold'],
+#             tag='fake'
+#         )
+
+#     context = {
+#         'champion_data': champion_data
+#     }
+
+#     return render(request, 'champions/champion_stats.html', context)
