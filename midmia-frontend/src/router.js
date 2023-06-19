@@ -12,6 +12,7 @@ import Password from "./pages/Password";
 import PasswordReset from "./pages/PasswordReset";
 import Login from "./pages/Login"
 import Join from "./pages/Join"
+import SummonerInfo from "./pages/summonerinfo";
 
 
 const router = createBrowserRouter([
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
         path:"/Community/create/",
         element:<CreatePost />
     },
+    {
+        path:"/Summonerinfo",
+        element:<SummonerInfo />
+    }
 ])
 
 export default router;

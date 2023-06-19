@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework_simplejwt",
     "api",
+    'score',
 ]
 
 MIDDLEWARE = [

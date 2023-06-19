@@ -24,5 +24,6 @@ urlpatterns = [
     path('champions/', include('champions.urls')),
     path('summoners/', include('summoners.urls')),
     path('community/', include('community.urls')),
-    path('api/', include("api.urls"))
+    path('api/', include("api.urls")),
+    path('score/', include('score.urls')),
 ]
