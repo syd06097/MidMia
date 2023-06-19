@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ListGroup from 'react-bootstrap/ListGroup';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+
 
 function CreatePostForm() {
   const [title, setTitle] = useState("");
@@ -8,6 +10,7 @@ function CreatePostForm() {
   const [category, setCategory] = useState("");
   const [subcategory, setSubcategory] = useState("");
 
+  const navigate = useNavigate();
 
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
@@ -41,6 +44,7 @@ function CreatePostForm() {
         if (response.status === 201) {
           // 글 작성이 성공적으로 완료된 경우에 대한 처리
           console.log("글 작성이 성공적으로 완료되었습니다.");
+          navigate("/Community/");
           // 필요한 리다이렉션 또는 다음 동작을 수행
         } else {
           // 글 작성이 실패한 경우에 대한 처리
@@ -98,7 +102,7 @@ function CreatePostForm() {
           {category === "free" && (
             <label style={{ color: "white" }}>
               <select style={{ backgroundColor: 'rgb(016,019,028)', color: 'rgb(130,135,153)', height: '40px' }} value={subcategory} onChange={(e) => setSubcategory(e.target.value)}>
-                <option value="">Select Subcategory</option>
+                <option value="">서브 카테고리</option>
                 <option value="humor">유머</option>
                 <option value="freef">자유</option>
               </select>

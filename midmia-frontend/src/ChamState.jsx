@@ -35,6 +35,7 @@ function ChamState() {
       try {
         const response = await axios.get('http://127.0.0.1:8000/champions/api/champion-stats/');
         setChampionStats(response.data);
+        console.log(response.data)
       } catch (error) {
         console.error(error);
       }
@@ -83,7 +84,8 @@ function ChamState() {
           <tbody>
             {championStats.map((stats) => (
               <tr key={stats.champion.id} style={{ textAlign: 'center' }}>
-                <th style={{ textAlign: 'left' }}>{stats.champion.name}</th>
+                <th style={{ textAlign: 'left' }}><img src={`${stats.champion.champi_image_link}`} alt='프로필' width={"35px"} className={styles.uimg} />
+                  {stats.champion.name}</th>
                 <th>{stats.KDA}</th>
                 <th>{stats.wins_rate}</th>
                 <th>{stats.pick_rate}</th>

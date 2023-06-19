@@ -41,9 +41,9 @@ const PostView = ({ no }) => {
 
   return (
     <>
-      <h2 align="center">게시글 상세정보</h2>
+      <h2 align="center" style={{color:'white'}}>게시글 상세정보</h2>
 
-      <div className="post-view-wrapper">
+      <div className="post-view-wrapper" style={{color:'white'}}>
         {
           data ? (
             <>

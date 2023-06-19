@@ -19,12 +19,12 @@ function MainCommunity() {
         const positionFilteredPosts = posts.filter(item =>
           ["top", "jungle", "mid", "bottom", "support"].includes(item.subcategory)
         );
-        setPositionData(positionFilteredPosts);
+        setPositionData(positionFilteredPosts.slice(0, 10));
 
         const freeFilteredPosts = posts.filter(item =>
-          ["free", "humor"].includes(item.subcategory)
+          ["freef", "humor"].includes(item.subcategory)
         );
-        setFreeData(freeFilteredPosts);
+        setFreeData(freeFilteredPosts.slice(0, 10));
       })
       .catch(error => {
         console.error(error);

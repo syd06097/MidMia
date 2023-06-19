@@ -44,16 +44,6 @@ function Community() {
         <MenuBackimage name="커뮤니티" />{/* 상단의 이미지 배경 */}
         <Sidebar onCategoryChange={handleCategoryChange}/>
         <PostList category={selectedCategory} />
-        <div style={page}>
-          <Pagination>
-            <Pagination.Prev />
-            <Pagination.Item active>{1}</Pagination.Item>
-            <Pagination.Item>{2}</Pagination.Item>
-            <Pagination.Item>{3}</Pagination.Item>
-            <Pagination.Item>{4}</Pagination.Item>
-            <Pagination.Next />
-          </Pagination>
-        </div>
         <ListGroup style={pagebottom}>
           <small style={{ color: 'white' }}>© 2023-2023 MidMia  isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends.<br />
             League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.</small>

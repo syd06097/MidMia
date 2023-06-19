@@ -4,6 +4,14 @@ import { Link } from 'react-router-dom';
 import CommonTable from './table/table';
 import CommonTableColumn from './table/tablecolumn';
 import CommonTableRow from './table/tablerow';
+import Pagination from 'react-bootstrap/Pagination';
+
+const page = {
+  width: '80%',
+  margin: '80px auto',
+  position: 'center',
+  transform: 'translate(42%,0%)'/*옆에 메뉴 박고 다시 수정*/
+}
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -16,6 +24,11 @@ const formatDate = (dateString) => {
 
 const PostList = ({ category }) => {
   const [dataList, setDataList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
+  const [postsPerPage] = useState(20); // 페이지 당 게시글 수
+
+
+  
 
   useEffect(() => {
     // API 요청을 통해 게시글 목록을 가져옵니다.
@@ -31,7 +44,7 @@ const PostList = ({ category }) => {
           );
         } else if (category === 'free_all') {
           filteredPosts = posts.filter(item =>
-            ["free", "humor"].includes(item.subcategory)
+            ["freef", "humor"].includes(item.subcategory)
           );
         } else {
           filteredPosts = posts.filter(item => item.subcategory === category)
@@ -44,25 +57,61 @@ const PostList = ({ category }) => {
       });
   }, [category]);
 
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = dataList.slice(indexOfFirstPost, indexOfLastPost);
+
+  // 페이지 변경 시 호출되는 함수
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  }
+
+  const totalPages = Math.ceil(dataList.length / postsPerPage);
+
   return (
     <>
       <CommonTable headersName={['번호', '제목', '작성자', '날짜']}>
-        {
-          dataList ? dataList.map((item, index) => {
+      {currentPosts ? (
+          currentPosts.map((item, index) => {
             const formattedDate = formatDate(item.created_at);
             return (
               <CommonTableRow key={index}>
-                <CommonTableColumn>{item.subcategory}{item.id}</CommonTableColumn>
+                <CommonTableColumn>
+                  {item.subcategory}
+                  {item.id}
+                </CommonTableColumn>
                 <CommonTableColumn>
                   <Link to={`/Community/${item.id}`}>{item.title}</Link>
                 </CommonTableColumn>
                 <CommonTableColumn>{item.author}</CommonTableColumn>
                 <CommonTableColumn>{formattedDate}</CommonTableColumn>
               </CommonTableRow>
-            )
-          }) : ''
+            );
+          })
+        ) : ''
         }
       </CommonTable>
+      <div style={page}>
+      <Pagination>
+        <Pagination.Prev
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        />
+        {Array.from({ length: totalPages }, (_, i) => (
+          <Pagination.Item
+            key={i + 1}
+            active={i + 1 === currentPage}
+            onClick={() => handlePageChange(i + 1)}
+          >
+            {i + 1}
+          </Pagination.Item>
+        ))}
+        <Pagination.Next
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        />
+      </Pagination>
+      </div>
     </>
   )
 }
