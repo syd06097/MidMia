@@ -37,7 +37,7 @@ const PostView = ({ no }) => {
         // API 요청이 실패한 경우 에러 처리를 수행합니다.
         console.error(error);
       });
-  }, []);
+  }, [no]);
 
   return (
     <>
