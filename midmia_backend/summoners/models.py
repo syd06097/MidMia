@@ -7,6 +7,8 @@ class Summoner(models.Model):
     lp = models.IntegerField(null=True)
     win_rate = models.CharField(max_length=10)
     tier = models.CharField(max_length=20, default='null')
+    wins = models.IntegerField(null=True) 
+    losses = models.IntegerField(null=True)
 
     def __str__(self):
         return self.name

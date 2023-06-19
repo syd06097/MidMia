@@ -7,7 +7,6 @@ import headerBgImage from '../image/headerbg-2b1e421b.jpg';//image폴더에 있�
 //import Container from 'react-bootstrap/Container';
 //import Button from 'react-bootstrap/Button';
 import SearchForm from '../component/searchForm';
-import { propTypes } from 'react-bootstrap/esm/Image';
 
 const mainStyle = {
   backgroundColor: 'rgb(033, 033, 033)', // 배경이미지가 없는 공간의 배경색

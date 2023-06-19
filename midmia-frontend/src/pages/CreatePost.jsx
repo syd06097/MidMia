@@ -6,8 +6,9 @@ import CreatePostForm from "../component/createform";
 
 
 const mainStyle = {
-  backgroundColor: 'rgb(033, 033, 033)', // 배경이미지가 없는 공간의 배경색
+  backgroundColor: 'rgb(016,019,028)', // 배경이미지가 없는 공간의 배경색
   minHeight: '100vh', // 화면 전체 높이로 설정
+  overflow: 'hidden', // 스크롤바 숨기기(오른쪽 하얀공간이 생성됨)
 };//회색배경
 
 const pagebottom = {

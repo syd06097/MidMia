@@ -1,5 +1,5 @@
 .common-table {
-  width: 80%;
+  width: 60%;
   margin: 0 auto;
   text-align: center;
   border-spacing: 0;
@@ -14,10 +14,18 @@
 }
 
 .common-table-row:hover {
-  background-color: #eceaea;
+  background-color: rgb(23,27,47);
   cursor: pointer;
 }
 
 .common-table-column {
   padding: 10px 5px;
+  font-size: 15px;
+}
+
+/*테스트*/
+.custom-dropdown-button {
+  background-color: rgb(16, 19, 28);
+  border: none;
+  /* 추가적인 스타일을 적용할 수 있습니다 */
 }
