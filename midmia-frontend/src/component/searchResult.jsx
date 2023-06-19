@@ -10,12 +10,12 @@ const SearchResult = ({ summonerInfo }) => {
   let { summoner_exist, summoner_info, solo_tier, team_tier } = summonerInfo;
 
   return (
-    <div>
-      {summoner_exist ? (
+    <div style={{color :'white'}}>
+      {summoner_exist === true ? (
         <div>
           <div className="row" style={{ margin: '40px', float: 'none' }}>
             <img
-              style={{ display: 'block', margin: '0px' }}
+              style={{ display: 'block', margin: '0px', width: '200px' }}
               className="img-thumbnail"
               src={`http://ddragon.leagueoflegends.com/cdn/13.12.1/img/profileicon/${summoner_info.profileIconId}.png`}
               alt="Profile Icon"

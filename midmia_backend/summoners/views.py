@@ -4,7 +4,17 @@ from .models import Summoner
 from django.conf import settings
 import random
 from operator import attrgetter
+from rest_framework.views import APIView
+from .serializers import SummonerSerializer
+from rest_framework.response import Response
 
+
+class SummonerRankingAPIView(APIView):
+     def get(self, request):
+        summoners = Summoner.objects.filter(tier='CHALLENGER').order_by('ranking')
+        serializer = SummonerSerializer(summoners, many=True)
+        return Response(serializer.data)
+     
 def summoner_ranking(request):
     # Riot API 관련 설정
     api_key = settings.API_KEY
@@ -37,6 +47,8 @@ def summoner_ranking(request):
             lp=summoner_data['leaguePoints'],
             win_rate=win_rate_formatted,
             tier='CHALLENGER',
+            wins = summoner_data['wins'], 
+            losses = summoner_data['losses']  
         )
         summoners.append(summoner)
 

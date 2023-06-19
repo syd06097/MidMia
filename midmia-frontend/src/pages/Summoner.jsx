@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import NavBar from '../NavBar';//상단 메뉴바
 import MenuBackimage from '../MenuBackimage';//배경
 import styles from "../css/Summoner.module.css";
 import Pagination from 'react-bootstrap/Pagination';// 홈페이지 글 넘기는 버튼
 import Badge from 'react-bootstrap/Badge';// 뱃지 생성 <Badge bg="danger">↑↓</Badge>
-
+import axios from 'axios';
 import Table from 'react-bootstrap/Table';
 import ProgressBar from 'react-bootstrap/ProgressBar';//승률
 
@@ -24,7 +24,46 @@ const pagebottom = {
   padding: '20px'
 }//아래 추가용 스타일
 
+
+function getRandomUpDown() {
+  const randomNum = Math.floor(Math.random() * 11);
+  if (randomNum === 0) {
+    return { x: 'dark', arrow: '', number: 0 };
+  } else if (randomNum <= 5) {
+    return { x: 'success', arrow: '↑', number: randomNum };
+  } else {
+    return { x: 'danger', arrow: '↓', number: randomNum };
+  }
+}
+
+
 function Summoner() {
+  const [rankingData, setRankingData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [dataPerPage] = useState(50);
+
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/summoners/api/ranking/')
+      .then(response => {
+        setRankingData(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
+
+
+  const getDataPerPage = () => {
+    const indexOfLastData = currentPage * dataPerPage;
+    const indexOfFirstData = indexOfLastData - dataPerPage;
+    return rankingData.slice(indexOfFirstData, indexOfLastData);
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+
   return (
     <div>
       <div style={mainStyle}>
@@ -45,166 +84,40 @@ function Summoner() {
             </tr>
           </thead>
           <tbody>
-            <tr style={{ textAlign: 'left' }}>{/* 첫번쨰 tbody를 제외하고 나머지에 스타일 적용해야함 */}
-              <th style={{ textAlign: 'center' }}>1</th> {/* 챔피언명만 오른쪽 정렬 */}
-              <th><Badge bg="success">↑ 1</Badge></th>
-              <th><img src="user_img.jpg" alt='프로필' width={"35px"} className={styles.uimg} />
-                <img src="MID.jpg" alt="포지션" width={"20px"} style={{ marginLeft: '10px' }} /></th>
-              <th>씨맥은틀렸다</th>
-              <th><img src="Tier_img.jpg" width={"40px"} />1742LP</th>
-              <th>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  56.25%&nbsp;<ProgressBar now={60} style={{ height: '10px', width: '200px' }} />
-                </span>
-                <small>384게임</small>
-                <span style={{ marginRight: '30px' }}><small style={{ marginLeft: '7px' }}>236승</small><small style={{ marginLeft: '138px' }}>236승</small></span>
-              </th>
-            </tr>
-            <tr style={{ textAlign: 'left' }}>
-              <th style={{ textAlign: 'center' }}>2</th>
-              <th><Badge bg="danger">↓ 1</Badge></th>
-              <th><img src="user_img.jpg" alt='프로필' width={"35px"} className={styles.uimg} />
-                <img src="MID.jpg" alt="포지션" width={"20px"} style={{ marginLeft: '10px' }} /></th>
-              <th>4.79</th>
-              <th><img src="Tier_img.jpg" width={"40px"} />1742LP</th>
-              <th>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  56.25%&nbsp;<ProgressBar now={60} style={{ height: '10px', width: '200px' }} />
-                </span>
-                <small>384게임</small>
-                <span style={{ marginRight: '30px' }}><small style={{ marginLeft: '7px' }}>236승</small><small style={{ marginLeft: '138px' }}>236승</small></span>
-              </th>
-            </tr>
-            <tr style={{ textAlign: 'left' }}>
-              <th style={{ textAlign: 'center' }}>3</th>
-              <th><Badge bg="danger">↓ 1</Badge></th>
-              <th><img src="user_img.jpg" alt='프로필' width={"35px"} className={styles.uimg} />
-                <img src="MID.jpg" alt="포지션" width={"20px"} style={{ marginLeft: '10px' }} /></th>
-              <th>4.79</th>
-              <th><img src="Tier_img.jpg" width={"40px"} />1742LP</th>
-              <th>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  56.25%&nbsp;<ProgressBar now={60} style={{ height: '10px', width: '200px' }} />
-                </span>
-                <small>384게임</small>
-                <span style={{ marginRight: '30px' }}><small style={{ marginLeft: '7px' }}>236승</small><small style={{ marginLeft: '138px' }}>236승</small></span>
-              </th>
-            </tr>
-            <tr style={{ textAlign: 'left' }}>
-              <th style={{ textAlign: 'center' }}>4</th>
-              <th><Badge bg="danger">↓ 1</Badge></th>
-              <th><img src="user_img.jpg" alt='프로필' width={"35px"} className={styles.uimg} />
-                <img src="MID.jpg" alt="포지션" width={"20px"} style={{ marginLeft: '10px' }} /></th>
-              <th>4.79</th>
-              <th><img src="Tier_img.jpg" width={"40px"} />1742LP</th>
-              <th>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  56.25%&nbsp;<ProgressBar now={60} style={{ height: '10px', width: '200px' }} />
-                </span>
-                <small>384게임</small>
-                <span style={{ marginRight: '30px' }}><small style={{ marginLeft: '7px' }}>236승</small><small style={{ marginLeft: '138px' }}>236승</small></span>
-              </th>
-            </tr>
-            <tr style={{ textAlign: 'left' }}>
-              <th style={{ textAlign: 'center' }}>5</th>
-              <th><Badge bg="danger">↓ 1</Badge></th>
-              <th><img src="user_img.jpg" alt='프로필' width={"35px"} className={styles.uimg} />
-                <img src="MID.jpg" alt="포지션" width={"20px"} style={{ marginLeft: '10px' }} /></th>
-              <th>4.79</th>
-              <th><img src="Tier_img.jpg" width={"40px"} />1742LP</th>
-              <th>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  56.25%&nbsp;<ProgressBar now={60} style={{ height: '10px', width: '200px' }} />
-                </span>
-                <small>384게임</small>
-                <span style={{ marginRight: '30px' }}><small style={{ marginLeft: '7px' }}>236승</small><small style={{ marginLeft: '138px' }}>236승</small></span>
-              </th>
-            </tr>
-            <tr style={{ textAlign: 'left' }}>
-              <th style={{ textAlign: 'center' }}>6</th>
-              <th><Badge bg="danger">↓ 1</Badge></th>
-              <th><img src="user_img.jpg" alt='프로필' width={"35px"} className={styles.uimg} />
-                <img src="MID.jpg" alt="포지션" width={"20px"} style={{ marginLeft: '10px' }} /></th>
-              <th>4.79</th>
-              <th><img src="Tier_img.jpg" width={"40px"} />1742LP</th>
-              <th>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  56.25%&nbsp;<ProgressBar now={60} style={{ height: '10px', width: '200px' }} />
-                </span>
-                <small>384게임</small>
-                <span style={{ marginRight: '30px' }}><small style={{ marginLeft: '7px' }}>236승</small><small style={{ marginLeft: '138px' }}>236승</small></span>
-              </th>
-            </tr>
-            <tr style={{ textAlign: 'left' }}>
-              <th style={{ textAlign: 'center' }}>7</th>
-              <th><Badge bg="danger">↓ 1</Badge></th>
-              <th><img src="user_img.jpg" alt='프로필' width={"35px"} className={styles.uimg} />
-                <img src="MID.jpg" alt="포지션" width={"20px"} style={{ marginLeft: '10px' }} /></th>
-              <th>4.79</th>
-              <th><img src="Tier_img.jpg" width={"40px"} />1742LP</th>
-              <th>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  56.25%&nbsp;<ProgressBar now={60} style={{ height: '10px', width: '200px' }} />
-                </span>
-                <small>384게임</small>
-                <span style={{ marginRight: '30px' }}><small style={{ marginLeft: '7px' }}>236승</small><small style={{ marginLeft: '138px' }}>236승</small></span>
-              </th>
-            </tr>
-            <tr style={{ textAlign: 'left' }}>
-              <th style={{ textAlign: 'center' }}>8</th>
-              <th><Badge bg="danger">↓ 1</Badge></th>
-              <th><img src="user_img.jpg" alt='프로필' width={"35px"} className={styles.uimg} />
-                <img src="MID.jpg" alt="포지션" width={"20px"} style={{ marginLeft: '10px' }} /></th>
-              <th>4.79</th>
-              <th><img src="Tier_img.jpg" width={"40px"} />1742LP</th>
-              <th>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  56.25%&nbsp;<ProgressBar now={60} style={{ height: '10px', width: '200px' }} />
-                </span>
-                <small>384게임</small>
-                <span style={{ marginRight: '30px' }}><small style={{ marginLeft: '7px' }}>236승</small><small style={{ marginLeft: '138px' }}>236승</small></span>
-              </th>
-            </tr>
-            <tr style={{ textAlign: 'left' }}>
-              <th style={{ textAlign: 'center' }}>9</th>
-              <th><Badge bg="dark">-&nbsp;&nbsp;0</Badge></th>
-              <th><img src="user_img.jpg" alt='프로필' width={"35px"} className={styles.uimg} />
-                <img src="MID.jpg" alt="포지션" width={"20px"} style={{ marginLeft: '10px' }} /></th>
-              <th>4.79</th>
-              <th><img src="Tier_img.jpg" width={"40px"} />1742LP</th>
-              <th>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  56.25%&nbsp;<ProgressBar now={60} style={{ height: '10px', width: '200px' }} />
-                </span>
-                <small>384게임</small>
-                <span style={{ marginRight: '30px' }}><small style={{ marginLeft: '7px' }}>236승</small><small style={{ marginLeft: '138px' }}>236승</small></span>
-              </th>
-            </tr>
-            <tr style={{ textAlign: 'left' }}>
-              <th style={{ textAlign: 'center' }}>10</th>
-              <th><Badge bg="dark">-&nbsp;&nbsp;0</Badge></th>
-              <th><img src="user_img.jpg" alt='프로필' width={"35px"} className={styles.uimg} />
-                <img src="MID.jpg" alt="포지션" width={"20px"} style={{ marginLeft: '10px' }} /></th>
-              <th>4.79</th>
-              <th><img src="Tier_img.jpg" width={"40px"} />1742LP</th>
-              <th>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  56.25%&nbsp;<ProgressBar now={60} style={{ height: '10px', width: '200px' }} />
-                </span>
-                <small>384게임</small>
-                <span style={{ marginRight: '30px' }}><small style={{ marginLeft: '7px' }}>236승</small><small style={{ marginLeft: '138px' }}>236승</small></span>
-              </th>
-            </tr>
+            {getDataPerPage().map((player, index) => {
+              const { x, arrow, number } = getRandomUpDown();
+              return (
+                <tr key={player.id} style={{ textAlign: 'left' }}>
+                  <th style={{ textAlign: 'center' }}>{player.ranking}</th>
+                  <th><Badge bg={x}>{arrow} {number}</Badge></th>
+                  <th><img src={`${player.icon_url}`} alt='프로필' width={"35px"} className={styles.uimg} />
+                  </th>
+                  <th>{player.name}</th>
+                  <th><img src="Tier_img.jpg" width={"40px"} />{player.lp}LP</th>
+                  <th>
+                    <span style={{ display: 'flex', alignItems: 'center' }}>
+                      {player.win_rate}&nbsp;<ProgressBar now={parseInt(parseFloat(player.win_rate))} style={{ height: '10px', width: '200px' }} />
+                    </span>
+                    <small>{parseInt(player.wins) + parseInt(player.losses)}게임</small>
+                    <span style={{ marginRight: '30px' }}><small style={{ marginLeft: '7px' }}>{player.wins}승</small><small style={{ marginLeft: '138px' }}>{player.losses}패</small></span>
+                  </th>
+                </tr>)
+            })}
           </tbody>
         </Table>
         <div className={styles.page}>
           <Pagination>
-            <Pagination.Prev />
-            <Pagination.Item active>{1}</Pagination.Item>
-            <Pagination.Item>{2}</Pagination.Item>
-            <Pagination.Item>{3}</Pagination.Item>
-            <Pagination.Item>{4}</Pagination.Item>
-            <Pagination.Next />
+            <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} />
+            {Array.from({ length: Math.ceil(rankingData.length / dataPerPage) }, (_, i) => (
+              <Pagination.Item
+                key={i + 1}
+                active={i + 1 === currentPage}
+                onClick={() => handlePageChange(i + 1)}
+              >
+                {i + 1}
+              </Pagination.Item>
+            ))}
+            <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} />
           </Pagination>
         </div>
         <ListGroup style={pagebottom}>
