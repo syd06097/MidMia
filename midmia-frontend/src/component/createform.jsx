@@ -28,6 +28,8 @@ function CreatePostForm() {
     formData.append("content", content);
     formData.append("category", category);
     formData.append("subcategory", subcategory);
+    formData.append("author", 'ㅇㅇ');
+
 
     for (let pair of formData.entries()) {
       console.log(pair[0] + ": " + pair[1]);

@@ -64,13 +64,12 @@ class LogoutAPIView(APIView):
         logout(request)
         return Response(status=status.HTTP_200_OK)
 
-@method_decorator(login_required, name='post')
+
 class CreatePostAPIView(APIView):
     def post(self, request):
         form = PostForm(request.data)
         if form.is_valid():
             post = form.save(commit=False)
-            post.author = str(request.user.username)
             post.save()
             return Response(status=status.HTTP_201_CREATED)
         else:
