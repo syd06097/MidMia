@@ -32,7 +32,6 @@ function CreatePostForm() {
     for (let pair of formData.entries()) {
       console.log(pair[0] + ": " + pair[1]);
     }
-
     axios.post("http://127.0.0.1:8000/community/create/", formData, {
       'Content-Type': 'multipart/form-data',
     })

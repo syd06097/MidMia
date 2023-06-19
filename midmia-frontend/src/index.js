@@ -1,18 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';//nav 문제로 추가함
-import Main from './pages/Main';
-import ChampionState from './pages/ChampionState';
+import { render } from 'react-dom';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+ReactDOM.render(
   <React.StrictMode>
-    <App/> 
-  </React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
 );
 //사용하는 js를 넣어주므로 Counter를 넣어준다
 

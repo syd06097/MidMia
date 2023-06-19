@@ -5,6 +5,15 @@ import CommonTable from './table/table';
 import CommonTableColumn from './table/tablecolumn';
 import CommonTableRow from './table/tablerow';
 
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  
+  return `${year}-${month}-${day}`;
+};
+
 const PostList = ({ category }) => {
   const [dataList, setDataList] = useState([]);
 
@@ -14,7 +23,6 @@ const PostList = ({ category }) => {
       .then(response => {
         // API 요청이 성공하면 가져온 데이터를 처리합니다.
         const posts = response.data;
-
         let filteredPosts = [];
         
         if (category === 'position_all') {
@@ -28,7 +36,6 @@ const PostList = ({ category }) => {
         } else {
           filteredPosts = posts.filter(item => item.subcategory === category)
         }
-        
         setDataList(filteredPosts);
       })
       .catch(error => {
@@ -42,14 +49,15 @@ const PostList = ({ category }) => {
       <CommonTable headersName={['번호', '제목', '작성자', '날짜']}>
         {
           dataList ? dataList.map((item, index) => {
+            const formattedDate = formatDate(item.created_at);
             return (
               <CommonTableRow key={index}>
-                <CommonTableColumn><h1>{item.subcategory}</h1>{item.id}</CommonTableColumn>
+                <CommonTableColumn>{item.subcategory}{item.id}</CommonTableColumn>
                 <CommonTableColumn>
-                  <Link to={`/Community/postView/${item.id}`}>{item.title}</Link>
+                  <Link to={`/Community/${item.id}`}>{item.title}</Link>
                 </CommonTableColumn>
                 <CommonTableColumn>{item.author}</CommonTableColumn>
-                <CommonTableColumn>{item.created_at}</CommonTableColumn>
+                <CommonTableColumn>{formattedDate}</CommonTableColumn>
               </CommonTableRow>
             )
           }) : ''

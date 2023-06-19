@@ -6,6 +6,8 @@ import MainCommunity from '../MainCommunity';//하단 게시판
 import headerBgImage from '../image/headerbg-2b1e421b.jpg';//image폴더에 있는 이미지 임폴트
 //import Container from 'react-bootstrap/Container';
 //import Button from 'react-bootstrap/Button';
+import SearchForm from '../component/searchForm';
+import { propTypes } from 'react-bootstrap/esm/Image';
 
 const mainStyle = {
   backgroundColor: 'rgb(033, 033, 033)', // 배경이미지가 없는 공간의 배경색
@@ -26,7 +28,9 @@ function Main() {
     <div>
       <div style={mainStyle}>
         <NavBar />{/* 상단 메뉴바 */}
-        <Backimage/>{/* 상단의 이미지 배경 */}
+        <Backimage>{/* 상단의 이미지 배경 */}
+        <SearchForm/>
+        </Backimage>
         <MainCommunity/>{/* 메인화면 커뮤니티 */}
         <ListGroup style={pagebottom}>
           <small style={{color:'white'}}>© 2023-2023 MidMia  isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends.<br/>

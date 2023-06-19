@@ -2,7 +2,8 @@ import React from "react";
 import ListGroup from 'react-bootstrap/ListGroup';
 import NavBar from '../NavBar';//상단 메뉴바
 import MenuBackimage from '../MenuBackimage';//배경
-
+import SearchResult from "../component/searchResult";
+import { useLocation } from "react-router-dom";
 
 
 const mainStyle = {
@@ -20,14 +21,16 @@ const pagebottom = {
 }//아래 추가용 스타일
 
 
-
-function SignUp() {
+function SummonerInfo() {
+  const location = useLocation();
+  const summonerInfo = location.state?.summonerInfo;
+  
   return (
     <div>
       <div style={mainStyle}>
         <NavBar />{/* 상단 메뉴바 */}
-        <MenuBackimage name="회원가입" />{/* 상단의 이미지 배경 */}
-        {/* 로그인 페이지 자리 */}
+        <MenuBackimage name="소환사 정보" />{/* 상단의 이미지 배경 */}
+        {summonerInfo && <SearchResult summonerInfo={summonerInfo} />}
         <ListGroup style={pagebottom}>
           <small style={{ color: 'white' }}>© 2023-2023 MidMia  isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends.<br />
             League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.</small>
@@ -37,4 +40,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default SummonerInfo;

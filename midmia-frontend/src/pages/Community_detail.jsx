@@ -21,8 +21,9 @@ const pagebottom = {
 
 
 
-function Community_detail() {
+function CommunityDetail() {
   const { no } = useParams();
+
 
   return (
     <div>
@@ -39,4 +40,4 @@ function Community_detail() {
   );
 }
 
-export default Community_detail;
+export default CommunityDetail;

@@ -23,11 +23,11 @@ const pagebottom = {
 }//아래 추가용 스타일
 
 function Join() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
@@ -37,7 +37,7 @@ function Join() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // 로그인 처리 로직 추가
-    console.log('Email:', email);
+    console.log('Username:', username);
     console.log('Password:', password);
     // 여기에서 실제 로그인 처리를 구현할 수 있습니다.
   };
@@ -46,18 +46,18 @@ function Join() {
     <div>
       <div style={mainStyle}>
         <NavBar />{/* 상단 메뉴바 */}
-        <MenuBackimage name="이메일 회원가입" />{/* 상단의 이미지 배경 */}
+        <MenuBackimage name="아이디 회원가입" />{/* 상단의 이미지 배경 */}
         <div style={{textAlign:'center' ,marginTop:'50px', marginBottom:'30px'}}>
           <b style={{ color: 'white', fontSize: '20px', textAlign:'center' }}>MidMia에 이메일 계정으로 회원가입</b>
         </div>
         <div className={styles.Flogin}>
           <Form onSubmit={handleSubmit} style={{ width: '300px' }}>
             <Form.Group controlId="formEmail">
-            <Form.Label className={styles.Flabel}>이메일</Form.Label>
+            <Form.Label className={styles.Flabel}>아이디</Form.Label>
               <Form.Control
-                type="email"
-                value={email}
-                onChange={handleEmailChange}
+                type="text"
+                value={username}
+                onChange={handleUsernameChange}
                 className={styles.Fcontents}
               />
             </Form.Group>
