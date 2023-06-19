@@ -32,7 +32,7 @@ const SearchResult = ({ summonerInfo }) => {
                 <div className="row">
                   <div className="col-4">
                     <img
-                      src={`./${solo_tier.tier}.png`}
+                      src={`${process.env.PUBLIC_URL}/${solo_tier.tier}.png`}
                       width="100%"
                       alt="Solo Tier Emblem"
                     />
@@ -54,7 +54,7 @@ const SearchResult = ({ summonerInfo }) => {
                 <div className="row">
                   <div className="col-4">
                     <img
-                      src={`./${team_tier.tier}.png`}
+                      src={`${process.env.PUBLIC_URL}/${team_tier.tier}.png`}
                       width="100%"
                       alt="Team Tier Emblem"
                     />
